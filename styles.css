@@ -35,8 +35,9 @@
 
 canvas {
     background-color: black;
-    width: 80%;
-    border-radius: 1rem;
+    width: 80% !important;
+    border-radius: 1rem !important;
+    height: 90% !important;
 
 }
 
