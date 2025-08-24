@@ -22,12 +22,12 @@ function app() {
       0,
       0,
       0.5,
-      "CYLINDER",
+      "ICOSAHEDRON",
       "texture_test.png",
-      0x32a852,
+      0xffffff,
       [4, 4, 4]
     );
-    world.addPlanet(10, 10, 0, 0x3295a8, 16);
+    world.addPlanet(64, 0, 256, 0x74b370, 128, "grass.png");
     world.start();
   }, 500);
 }

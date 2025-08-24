@@ -17,6 +17,7 @@ export class World {
   initWorld(renderer) {
     this.scene = new THREE.Scene();
     this.light = new THREE.HemisphereLight(0xffffff, 0xa3a3a3, 5);
+    // this.light = new THREE.AmbientLight(0xffffff, 5);
     this.renderer = renderer;
     this.cameraObj = new CameraObject(this.renderer);
     this.cameraObj.setPosition(5, 0, 0);

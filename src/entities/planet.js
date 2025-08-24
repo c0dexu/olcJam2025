@@ -5,6 +5,8 @@ export class Planet extends Entity {
   geometry;
   material;
   color;
+  radius;
+  influence;
   x0;
   y0;
   z0;
@@ -16,5 +18,7 @@ export class Planet extends Entity {
     this.y0 = y0;
     this.z0 = z0;
     this.color = this.color;
+    this.radius = radius;
+    this.influence = this.radius;
   }
 }

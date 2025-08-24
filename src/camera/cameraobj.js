@@ -8,7 +8,7 @@ export class CameraObject {
   distance = 8;
 
   constructor(renderer) {
-    this.camera = new THREE.PerspectiveCamera(70, 2, 3.4, 100);
+    this.camera = new THREE.PerspectiveCamera(70, 2, 3.4, 1000);
     this.controls = new OrbitControls(this.camera, renderer.domElement);
   }
 

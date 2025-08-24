@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 export class MeshBody {
-  SEGMENTS = 16;
+  SEGMENTS = 10;
   geometry_type;
   boundingSphere;
   geometry;
