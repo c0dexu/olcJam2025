@@ -40,7 +40,6 @@ export class World {
     );
 
     this.entities.set(entity.mesh.uuid, entity);
-    this.cameraObj.setTarget(entity);
     entity.addToScene();
   }
   addPlanet(x0, y0, z0, color, radius, texture_path = null) {
@@ -63,7 +62,6 @@ export class World {
 
   gameloop = (time) => {
     time *= 0.01;
-    this.cameraObj.setPosition(0, 0, 0);
     this.entities.forEach((e, k, _) => {
       const nearestPlanet = this.findNearestPlanet(e.mesh.uuid);
       const planet = e.planet;

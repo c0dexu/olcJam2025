@@ -169,9 +169,9 @@ export class EntityMover extends Entity {
       // Vx = |V| * cos(alpha)
       // Vy = |v| * sin(alpha)
 
-      // this.tx = reference.u2[0] * this.tmax;
-      // this.ty = reference.u2[1] * this.tmax;
-      // this.tz = reference.u2[2] * this.tmax;
+      this.tx = reference.u1[0];
+      this.ty = reference.u1[1];
+      this.tz = reference.u1[2];
       this.line.geometry.setFromPoints([
         new THREE.Vector3(
           this.mesh.position.x,

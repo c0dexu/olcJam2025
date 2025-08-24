@@ -29,16 +29,14 @@ export function magnitude(x, y, z) {
 }
 
 export function cartesian_to_spherical(x, y, z) {
-  const dist = magnitude(x, y, z);
-  const theta = Math.atan2(y, x);
-
-  const k2 = z / dist;
-  const phi = Math.acos(k2);
+  const dist = Math.sqrt(x * x + y * y + z * z);
+  const theta = Math.atan2(z, x);
+  const phi = Math.acos(z / dist);
   return [dist, theta, phi];
 }
 
 export function units_sphere(theta, phi) {
-  const u1 = [-Math.sin(theta), Math.cos(theta), 0];
+  const u1 = [-Math.sin(theta), 0, Math.cos(theta)];
 
   const u2 = [
     Math.cos(theta) * Math.cos(phi),
