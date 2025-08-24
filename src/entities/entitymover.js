@@ -69,6 +69,8 @@ export class EntityMover extends Entity {
   line;
   rotation = 0;
   gain = 0;
+  theta = 0;
+  phi = 0;
 
   constructor(
     scene,
@@ -166,24 +168,28 @@ export class EntityMover extends Entity {
         dist_vec[2]
       );
 
-      const theta = spherical[1];
-      const phi = spherical[2];
+      this.theta = spherical[1];
+      this.phi = spherical[2];
 
-      if (spherical[2] >= Math.PI) {
-        this.gain = -Math.PI;
-      }
-
-      const reference = units_sphere(theta, phi);
+      const reference = units_sphere(this.theta, this.gain + this.phi);
 
       // V = Vx * u1 + Vy * u2
       // Vx = |V| * cos(alpha)
       // Vy = |v| * sin(alpha)
 
+      if (Math.abs(reference.u2[1]) < 0.01 && reference.u2[2] < 0) {
+        this.gain = Math.PI;
+      } else if (Math.abs(reference.u2[1]) < 0.01 && reference.u2[2] > 0) {
+        this.gain = -Math.PI;
+      }
+
+      console.log(reference.u2[1]);
+
       this.tx = -reference.u2[0] * 0.15;
       this.ty = -reference.u2[1] * 0.15;
       this.tz = -reference.u2[2] * 0.15;
 
-      console.log(`theta = ${theta}; phi = ${phi}`);
+      // console.log(`theta = ${theta}; phi = ${phi}`);
 
       this.line.geometry.setFromPoints([
         new THREE.Vector3(
