@@ -3,6 +3,7 @@ import * as THREE from "three";
 export class MeshBody {
   SEGMENTS = 16;
   geometry_type;
+  boundingSphere;
   geometry;
   material;
   mesh;
@@ -54,7 +55,7 @@ export class MeshBody {
   }
 
   calculateBoundingSphere() {
-    // TODO: calculate bounding sphere
+    this.boundingSphere = this.geometry.boundingSphere();
   }
 
   createGeometry() {
