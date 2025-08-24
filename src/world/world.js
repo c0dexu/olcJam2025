@@ -67,9 +67,13 @@ export class World {
       const nearestPlanet = this.findNearestPlanet(e.mesh.uuid);
       const planet = e.planet;
 
-      if (!planet || (planet && planet.mesh.uuid !== nearestPlanet.mesh.uuid)) {
+      if (
+        nearestPlanet &&
+        (!planet || (planet && planet.mesh.uuid !== nearestPlanet.mesh.uuid))
+      ) {
         e.attachPlanet(nearestPlanet);
       }
+      e.update();
     });
 
     this.renderer.render(this.scene, this.cameraObj.camera);

@@ -1,7 +1,9 @@
+import { normal, vectorDistance } from "../utils";
 import { Entity } from "./entity";
 
 // TODO: entity used for objects affected by physics
 export class EntityMover extends Entity {
+  GRAV_ACC = 0.1;
   scene;
   health = 1;
   geometry_type;
@@ -72,5 +74,30 @@ export class EntityMover extends Entity {
 
   attachPlanet(planet) {
     this.planet = planet;
+  }
+
+  update() {
+    if (this.planet) {
+      const xplanet = this.planet.x0;
+      const yplanet = this.planet.y0;
+      const zplanet = this.planet.z0;
+      const x = this.mesh.position.x;
+      const y = this.mesh.position.y;
+      const z = this.mesh.position.z;
+      const unit = normal(xplanet, yplanet, zplanet, x, y, z);
+      this.gx = this.GRAV_ACC * unit[0];
+      this.gy = this.GRAV_ACC * unit[1];
+      this.gz = this.GRAV_ACC * unit[2];
+    }
+
+    this.vx += this.gx * this.deltaTime;
+    this.vy += this.gy * this.deltaTime;
+    this.vz += this.gz * this.deltaTime;
+
+    const xpos = this.mesh.position.x;
+    const ypos = this.mesh.position.y;
+    const zpos = this.mesh.position.z;
+
+    this.mesh.position.set(xpos + this.vx, ypos + this.vy, zpos + this.vz);
   }
 }
