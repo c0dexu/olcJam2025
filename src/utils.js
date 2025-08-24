@@ -19,3 +19,32 @@ export function normal(x1, y1, z1, x2, y2, z2) {
   const nz = v[2] / dist;
   return [nx, ny, nz];
 }
+
+export function dot(x1, y1, z1, x2, y2, z2) {
+  return x1 * x2 + y1 * y2 + z1 * z2;
+}
+
+export function magnitude(x, y, z) {
+  return distance(0, 0, 0, x, y, z);
+}
+
+export function cartesian_to_spherical(x, y, z) {
+  const dist = magnitude(x, y, z);
+  const theta = Math.atan2(y, x);
+
+  const k2 = z / dist;
+  const phi = Math.acos(k2);
+  return [dist, theta, phi];
+}
+
+export function units_sphere(theta, phi) {
+  const u1 = [-Math.sin(theta), Math.cos(theta), 0];
+
+  const u2 = [
+    Math.cos(theta) * Math.cos(phi),
+    Math.sin(theta) * Math.cos(phi),
+    -Math.sin(phi),
+  ];
+
+  return { u1, u2 };
+}

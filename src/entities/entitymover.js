@@ -1,9 +1,16 @@
-import { normal, vectorDistance } from "../utils";
+import {
+  cartesian_to_spherical,
+  distance,
+  dot,
+  normal,
+  units_sphere,
+  vectorDistance,
+} from "../utils";
 import { Entity } from "./entity";
 
 // TODO: entity used for objects affected by physics
 export class EntityMover extends Entity {
-  GRAV_ACC = 0.1;
+  GRAV_ACC = 0.25;
   scene;
   health = 1;
   geometry_type;
@@ -38,13 +45,23 @@ export class EntityMover extends Entity {
   ry = 0;
   rz = 0;
 
+  mx = 0;
+  my = 0;
+  mz = 0;
+
+  tx = 0;
+  ty = 0;
+  tz = 0;
+
+  tmax = 0.5;
+
   isMoving = false;
   isDead = false;
   hasJumped = false;
   isInAir = false;
-  isColliding = false;
+  isCollidingWithPlanet = false;
   planet = null;
-
+  alpha = 0;
   constructor(
     scene,
     x0,
@@ -66,6 +83,7 @@ export class EntityMover extends Entity {
     this.texture_path = texture_path;
     this.color = color;
     this.args = args;
+    this.getMeshBody().calculateBoundingSphere();
   }
 
   addToScene() {
@@ -76,7 +94,47 @@ export class EntityMover extends Entity {
     this.planet = planet;
   }
 
-  update() {
+  checkPlanetCollision = () => {
+    if (!this.planet) return;
+    const xplanet = this.planet.x0;
+    const yplanet = this.planet.y0;
+    const zplanet = this.planet.z0;
+    const nextX = this.mesh.position.x + this.vx * this.deltaTime;
+    const nextY = this.mesh.position.y + this.vy * this.deltaTime;
+    const nextZ = this.mesh.position.z + this.vz * this.deltaTime;
+    const dist = distance(nextX, nextY, nextZ, xplanet, yplanet, zplanet);
+    const unit = normal(xplanet, yplanet, zplanet, nextX, nextY, nextZ);
+    this.isCollidingWithPlanet =
+      dist < this.getMeshBody().boundingSphere.radius + this.planet.radius;
+    if (this.isCollidingWithPlanet) {
+      this.rx = -this.gx;
+      this.ry = -this.gy;
+      this.rz = -this.gz;
+      this.rx = 0;
+      this.ry = 0;
+      this.rz = 0;
+      this.gx = 0;
+      this.gy = 0;
+      this.gz = 0;
+
+      const k = dot(this.vx, this.vy, this.vz, unit[0], unit[1], unit[2]);
+      this.vx -= 2 * unit[0] * k;
+      this.vy -= 2 * unit[1] * k;
+      this.vz -= 2 * unit[2] * k;
+
+      this.vx *= 0.7;
+      this.vy *= 0.7;
+      this.vz *= 0.7;
+
+      if (distance(0, 0, 0, this.vx, this.vy, this.vz) < 0.001) {
+        this.vx = 0;
+        this.vy = 0;
+        this.vz = 0;
+      }
+    }
+  };
+
+  update = () => {
     if (this.planet) {
       const xplanet = this.planet.x0;
       const yplanet = this.planet.y0;
@@ -88,16 +146,38 @@ export class EntityMover extends Entity {
       this.gx = this.GRAV_ACC * unit[0];
       this.gy = this.GRAV_ACC * unit[1];
       this.gz = this.GRAV_ACC * unit[2];
+      const dist_vec = vectorDistance(x, y, z, xplanet, yplanet, zplanet);
+
+      const spherical = cartesian_to_spherical(
+        dist_vec[0],
+        dist_vec[1],
+        dist_vec[2]
+      );
+      const reference = units_sphere(spherical[1], spherical[2]);
+
+      // V = Vx * u1 + Vy * u2
+      // Vx = |V| * cos(alpha)
+      // Vy = |v| * sin(alpha)
+
+      this.tx = reference.u1[0] * this.tmax;
+      this.ty = reference.u1[1] * this.tmax;
+      this.tz = reference.u1[2] * this.tmax;
+      console.log(this.tx, this.ty, this.tz);
+      this.checkPlanetCollision();
     }
 
-    this.vx += this.gx * this.deltaTime;
-    this.vy += this.gy * this.deltaTime;
-    this.vz += this.gz * this.deltaTime;
+    this.vx += (this.gx + this.rx) * this.deltaTime;
+    this.vy += (this.gy + this.ry) * this.deltaTime;
+    this.vz += (this.gz + this.rz) * this.deltaTime;
+
+    this.mx = this.vx + this.tx;
+    this.my = this.vy + this.ty;
+    this.mz = this.vz + this.tz;
 
     const xpos = this.mesh.position.x;
     const ypos = this.mesh.position.y;
     const zpos = this.mesh.position.z;
 
-    this.mesh.position.set(xpos + this.vx, ypos + this.vy, zpos + this.vz);
-  }
+    this.mesh.position.set(xpos + this.mx, ypos + this.my, zpos + this.mz);
+  };
 }

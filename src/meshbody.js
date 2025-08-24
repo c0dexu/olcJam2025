@@ -55,8 +55,9 @@ export class MeshBody {
   }
 
   calculateBoundingSphere() {
+    new THREE.BoxGeometry().computeBoundingSphere();
     this.geometry.computeBoundingSphere();
-    this.boundingSphere = this.geometry.boundingSphere();
+    this.boundingSphere = this.geometry.boundingSphere;
   }
 
   createGeometry() {
