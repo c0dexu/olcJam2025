@@ -3,6 +3,7 @@ import { MeshBody } from "../meshbody";
 
 // entity should only hold position and mesh info
 export class Entity {
+  scene;
   meshBody;
   geometry_type;
   mesh;
@@ -10,7 +11,8 @@ export class Entity {
   y0;
   z0;
 
-  constructor(x0, y0, z0, geometry_type, texture_path, color, args) {
+  constructor(scene, x0, y0, z0, geometry_type, texture_path, color, args) {
+    this.scene = scene;
     this.meshBody = new MeshBody(
       x0,
       y0,
@@ -24,7 +26,11 @@ export class Entity {
     this.mesh = this.meshBody.mesh;
   }
 
-  addToScene(scene) {
-    scene.add(this.mesh);
+  addToScene() {
+    this.scene.add(this.mesh);
+  }
+
+  getMeshBody() {
+    return this.meshBody;
   }
 }

@@ -55,6 +55,7 @@ export class MeshBody {
   }
 
   calculateBoundingSphere() {
+    this.geometry.computeBoundingSphere();
     this.boundingSphere = this.geometry.boundingSphere();
   }
 
