@@ -17,8 +17,8 @@ function app() {
     const world = new World(renderer);
     world.initWorld(renderer);
     world.addEntity(
-      0,
-      0,
+      16,
+      64,
       0,
       0.5,
       "ICOSAHEDRON",

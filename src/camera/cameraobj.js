@@ -18,10 +18,15 @@ export class CameraObject {
 
   setPosition(x, y, z) {
     if (this.target) {
-      this.camera.position.set(
-        this.target.position.x + x * this.distance,
-        this.target.position.y + y * this.distance,
-        this.target.position.z + z * this.distance
+      // this.camera.position.set(
+      //   this.target.position.x + x * this.distance,
+      //   this.target.position.y + y * this.distance,
+      //   this.target.position.z + z * this.distance
+      // );
+      this.controls.target = new THREE.Vector3(
+        this.target.mesh.position.x,
+        this.target.mesh.position.y,
+        this.target.mesh.position.z
       );
     } else {
       this.camera.position.set(

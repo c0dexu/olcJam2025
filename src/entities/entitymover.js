@@ -7,6 +7,7 @@ import {
   vectorDistance,
 } from "../utils";
 import { Entity } from "./entity";
+import * as THREE from "three";
 
 // TODO: entity used for objects affected by physics
 export class EntityMover extends Entity {
@@ -62,6 +63,11 @@ export class EntityMover extends Entity {
   isCollidingWithPlanet = false;
   planet = null;
   alpha = 0;
+
+  lineMaterial;
+  lineGeometry;
+  line;
+
   constructor(
     scene,
     x0,
@@ -83,6 +89,10 @@ export class EntityMover extends Entity {
     this.texture_path = texture_path;
     this.color = color;
     this.args = args;
+    this.lineGeometry = new THREE.BufferGeometry();
+    this.lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+    this.line = new THREE.Line(this.lineGeometry, this.lineMaterial);
+    this.scene.add(this.line);
     this.getMeshBody().calculateBoundingSphere();
   }
 
@@ -159,10 +169,22 @@ export class EntityMover extends Entity {
       // Vx = |V| * cos(alpha)
       // Vy = |v| * sin(alpha)
 
-      this.tx = reference.u1[0] * this.tmax;
-      this.ty = reference.u1[1] * this.tmax;
-      this.tz = reference.u1[2] * this.tmax;
-      console.log(this.tx, this.ty, this.tz);
+      // this.tx = reference.u2[0] * this.tmax;
+      // this.ty = reference.u2[1] * this.tmax;
+      // this.tz = reference.u2[2] * this.tmax;
+      this.line.geometry.setFromPoints([
+        new THREE.Vector3(
+          this.mesh.position.x,
+          this.mesh.position.y,
+          this.mesh.position.z
+        ),
+        new THREE.Vector3(
+          this.mesh.position.x + reference.u1[0] * 16,
+          this.mesh.position.y + reference.u1[1] * 16,
+          this.mesh.position.z + reference.u1[2] * 16
+        ),
+      ]);
+
       this.checkPlanetCollision();
     }
 
