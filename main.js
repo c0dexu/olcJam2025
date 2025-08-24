@@ -10,10 +10,13 @@ function app() {
   canvasContainer.appendChild(renderer.domElement);
   renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientWidth);
   console.log("RENDERER", renderer);
-  const world = new World(renderer);
-  world.addEntity(0, 0, 0, 0.5, "BOX", null, 0x32a852);
-  world.initRenderer(renderer);
-  world.start();
+
+  setTimeout(() => {
+    const world = new World(renderer);
+    world.initWorld(renderer);
+    world.addEntity(0, 0, 0, 0.5, "BOX", null, 0x32a852, [4, 4, 4]);
+    world.start();
+  }, 500);
 }
 
 btnConfirm.addEventListener("click", () => {
