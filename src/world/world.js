@@ -62,11 +62,21 @@ export class World {
 
   gameloop = (time) => {
     time *= 0.01;
+
+    this.entities.forEach((e, k, _) => {
+      const nearestPlanet = this.findNearestPlanet(e.mesh.uuid);
+      const planet = e.planet;
+
+      if (!planet || (planet && planet.mesh.uuid !== nearestPlanet.mesh.uuid)) {
+        e.attachPlanet(nearestPlanet);
+      }
+    });
+
     this.renderer.render(this.scene, this.cameraObj.camera);
     requestAnimationFrame(this.gameloop);
   };
 
-  findNearestPlanet(meshId) {
+  findNearestPlanet = (meshId) => {
     const entity = this.entities.get(meshId);
     const filteredPlanets = this.planets.filter((planet) => {
       const dist = distance(
@@ -81,7 +91,7 @@ export class World {
     });
     const nearestPlanet = filteredPlanets.find((planet) => {
       const radius = planet.radius;
-      const intensity = planet.intensity;
+      const influence = planet.influence;
       const dist = distance(
         entity.mesh.position.x,
         entity.mesh.position.y,
@@ -90,10 +100,10 @@ export class World {
         planet.y0,
         planet.z0
       );
-      return dist <= radius + intensity;
+      return dist <= radius + influence;
     });
     return nearestPlanet;
-  }
+  };
 
   start() {
     requestAnimationFrame(this.gameloop);

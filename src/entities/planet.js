@@ -19,6 +19,6 @@ export class Planet extends Entity {
     this.z0 = z0;
     this.color = this.color;
     this.radius = radius;
-    this.influence = this.radius;
+    this.influence = this.radius * 2;
   }
 }

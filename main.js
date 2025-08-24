@@ -10,7 +10,6 @@ function app() {
   const renderer = new THREE.WebGLRenderer();
   canvasContainer.appendChild(renderer.domElement);
   renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientWidth);
-  console.log("RENDERER", renderer);
 
   setTimeout(() => {
     const controller = new PlayerController(document);

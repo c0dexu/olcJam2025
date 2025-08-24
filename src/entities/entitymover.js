@@ -69,4 +69,8 @@ export class EntityMover extends Entity {
   addToScene() {
     super.addToScene();
   }
+
+  attachPlanet(planet) {
+    this.planet = planet;
+  }
 }

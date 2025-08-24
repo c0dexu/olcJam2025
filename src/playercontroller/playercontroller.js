@@ -10,7 +10,7 @@ export class PlayerController {
 
   setTarget(target) {
     this.target = target;
-    this.meshId = this.target.mesh.id;
+    this.meshId = this.target.mesh.uuid;
   }
 
   updateKeys = (ev) => {
