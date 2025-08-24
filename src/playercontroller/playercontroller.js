@@ -2,6 +2,7 @@ export class PlayerController {
   target = null;
   ref;
   keys = {};
+  meshId;
 
   constructor(ref) {
     this.ref = ref;
@@ -9,6 +10,7 @@ export class PlayerController {
 
   setTarget(target) {
     this.target = target;
+    this.meshId = this.target.mesh.id;
   }
 
   updateKeys = (ev) => {

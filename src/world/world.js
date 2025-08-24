@@ -2,15 +2,17 @@ import * as THREE from "three";
 import { CameraObject } from "../camera/cameraobj";
 import { EntityMover } from "../entities/entitymover";
 import { Planet } from "../entities/planet";
+import { distance } from "../utils";
 
 export class World {
   entities = new Map();
-  planets = new Map();
+  planets = [];
   cameraObj;
   skybox;
   renderer;
   scene;
   light;
+  MAX_DIST_PLANET = 2048;
 
   constructor() {}
 
@@ -50,7 +52,7 @@ export class World {
       texture_path,
       radius
     );
-    this.planets.set(planet.mesh.id, planet);
+    this.planets.push(planet);
     planet.addToScene();
   }
 
@@ -63,6 +65,35 @@ export class World {
     this.renderer.render(this.scene, this.cameraObj.camera);
     requestAnimationFrame(this.gameloop);
   };
+
+  findNearestPlanet(meshId) {
+    const entity = this.entities.get(meshId);
+    const filteredPlanets = this.planets.filter((planet) => {
+      const dist = distance(
+        entity.mesh.position.x,
+        entity.mesh.position.y,
+        entity.mesh.position.z,
+        planet.x0,
+        planet.y0,
+        planet.z0
+      );
+      return dist < this.MAX_DIST_PLANET;
+    });
+    const nearestPlanet = filteredPlanets.find((planet) => {
+      const radius = planet.radius;
+      const intensity = planet.intensity;
+      const dist = distance(
+        entity.mesh.position.x,
+        entity.mesh.position.y,
+        entity.mesh.position.z,
+        planet.x0,
+        planet.y0,
+        planet.z0
+      );
+      return dist <= radius + intensity;
+    });
+    return nearestPlanet;
+  }
 
   start() {
     requestAnimationFrame(this.gameloop);
