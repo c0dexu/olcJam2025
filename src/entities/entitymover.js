@@ -67,6 +67,7 @@ export class EntityMover extends Entity {
   lineMaterial;
   lineGeometry;
   line;
+  rotation = 0;
 
   constructor(
     scene,
@@ -169,9 +170,10 @@ export class EntityMover extends Entity {
       // Vx = |V| * cos(alpha)
       // Vy = |v| * sin(alpha)
 
-      this.tx = reference.u1[0];
-      this.ty = reference.u1[1];
-      this.tz = reference.u1[2];
+      this.tx = reference.u2[0] * 0.25;
+      this.ty = reference.u2[1] * 0.25;
+      this.tz = reference.u2[2] * 0.25;
+
       this.line.geometry.setFromPoints([
         new THREE.Vector3(
           this.mesh.position.x,
@@ -179,9 +181,9 @@ export class EntityMover extends Entity {
           this.mesh.position.z
         ),
         new THREE.Vector3(
-          this.mesh.position.x + reference.u1[0] * 16,
-          this.mesh.position.y + reference.u1[1] * 16,
-          this.mesh.position.z + reference.u1[2] * 16
+          this.mesh.position.x + reference.u2[0] * 16,
+          this.mesh.position.y + reference.u2[1] * 16,
+          this.mesh.position.z + reference.u2[2] * 16
         ),
       ]);
 

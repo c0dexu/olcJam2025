@@ -22,6 +22,7 @@ export class World {
     // this.light = new THREE.AmbientLight(0xffffff, 5);
     this.renderer = renderer;
     this.cameraObj = new CameraObject(this.renderer);
+    this.cameraObj.distance = 54;
     this.cameraObj.setPosition(5, 0, 0);
     this.scene.add(this.light);
   }

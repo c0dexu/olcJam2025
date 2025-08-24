@@ -17,7 +17,7 @@ function app() {
     const world = new World(renderer);
     world.initWorld(renderer);
     world.addEntity(
-      16,
+      256,
       64,
       0,
       0.5,
@@ -26,7 +26,7 @@ function app() {
       0xffffff,
       [4, 4, 4]
     );
-    world.addPlanet(64, 0, 256, 0x74b370, 128, "grass.png");
+    world.addPlanet(0, 0, 0, 0x74b370, 128, "grass.png");
     world.start();
   }, 500);
 }
