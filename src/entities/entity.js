@@ -1,7 +1,6 @@
 import { hashArray } from "three/src/nodes/core/NodeUtils.js";
 import { MeshBody } from "../meshbody";
 
-// entity should only hold position and mesh info
 export class Entity {
   scene;
   meshBody;

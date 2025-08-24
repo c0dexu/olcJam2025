@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import { CameraObject } from "../camera/cameraobj";
 import { EntityMover } from "../entities/entitymover";
+import { Planet } from "../entities/planet";
 
 export class World {
   entities = new Map();
+  planets = new Map();
   cameraObj;
   skybox;
   renderer;
@@ -36,7 +38,19 @@ export class World {
 
     this.entities.set(entity.mesh.uuid, entity);
     entity.addToScene();
-    console.log(this.entities, entity);
+  }
+  addPlanet(x0, y0, z0, color, radius, texture_path = null) {
+    const planet = new Planet(
+      this.scene,
+      x0,
+      y0,
+      z0,
+      color,
+      texture_path,
+      radius
+    );
+    this.planets.set(planet.mesh.id, planet);
+    planet.addToScene();
   }
 
   getEntity(id) {
