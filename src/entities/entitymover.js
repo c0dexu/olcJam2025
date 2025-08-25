@@ -62,7 +62,7 @@ export class EntityMover extends Entity {
   isInAir = false;
   isCollidingWithPlanet = false;
   planet = null;
-  alpha = 0;
+  alpha = Math.PI / 2;
 
   lineMaterial;
   lineGeometry;
@@ -71,6 +71,10 @@ export class EntityMover extends Entity {
   gain = 0;
   theta = 0;
   phi = 0;
+
+  hx = 0;
+  hy = 0;
+  h = 0.15;
 
   constructor(
     scene,
@@ -150,8 +154,6 @@ export class EntityMover extends Entity {
 
   update = () => {
     if (this.planet) {
-      const temp = new THREE.Mesh().up;
-
       const xplanet = this.planet.x0;
       const yplanet = this.planet.y0;
       const zplanet = this.planet.z0;
@@ -181,9 +183,23 @@ export class EntityMover extends Entity {
       // Vx = |V| * cos(alpha)
       // Vy = |v| * sin(alpha)
 
-      this.tx = -reference.u1[0] * 0.15;
-      this.ty = -reference.u1[1] * 0.15;
-      this.tz = -reference.u1[2] * 0.15;
+      this.hx = -this.h * Math.sin(this.alpha);
+      this.hy = this.h * Math.cos(this.alpha);
+
+      const ux = Math.cos(this.alpha);
+      const uy = -Math.sin(this.alpha);
+
+      // const temp = new THREE.Mesh().setRotationFromAxisAngle(axis);
+
+      this.mesh.setRotationFromAxisAngle(
+        new THREE.Vector3(ux, 0, uy),
+        this.rotation
+      );
+      this.rotation += 0.01;
+
+      this.tx = -(reference.u1[0] * this.hx + reference.u2[0] * this.hy);
+      this.ty = -(reference.u1[1] * this.hx + reference.u2[1] * this.hy);
+      this.tz = -(reference.u1[2] * this.hx + reference.u2[2] * this.hy);
 
       // console.log(-reference.u2[0], -reference.u2[1], -reference.u2[2]);
 
