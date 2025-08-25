@@ -31,7 +31,12 @@ export function magnitude(x, y, z) {
 export function cartesian_to_spherical(x, y, z) {
   const dist = Math.sqrt(x * x + y * y + z * z);
   const theta = Math.atan2(z, x);
-  const phi = Math.acos(y / dist);
+  let phi = Math.acos(y / dist);
+  const m_phi = Math.abs(phi);
+  if (m_phi < 0.1) {
+    phi = 0;
+  }
+
   return [dist, theta, phi];
 }
 

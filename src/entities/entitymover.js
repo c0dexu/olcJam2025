@@ -171,19 +171,11 @@ export class EntityMover extends Entity {
       this.theta = spherical[1];
       this.phi = spherical[2];
 
-      const reference = units_sphere(this.theta, this.gain + this.phi);
+      const reference = units_sphere(this.theta, this.phi);
 
       // V = Vx * u1 + Vy * u2
       // Vx = |V| * cos(alpha)
       // Vy = |v| * sin(alpha)
-
-      if (Math.abs(reference.u2[1]) < 0.01 && reference.u2[2] < 0) {
-        this.gain = Math.PI;
-      } else if (Math.abs(reference.u2[1]) < 0.01 && reference.u2[2] > 0) {
-        this.gain = -Math.PI;
-      }
-
-      console.log(reference.u2[1]);
 
       this.tx = -reference.u2[0] * 0.15;
       this.ty = -reference.u2[1] * 0.15;
