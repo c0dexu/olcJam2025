@@ -150,6 +150,8 @@ export class EntityMover extends Entity {
 
   update = () => {
     if (this.planet) {
+      const temp = new THREE.Mesh().up;
+
       const xplanet = this.planet.x0;
       const yplanet = this.planet.y0;
       const zplanet = this.planet.z0;
@@ -161,6 +163,8 @@ export class EntityMover extends Entity {
       this.gy = this.GRAV_ACC * unit[1];
       this.gz = this.GRAV_ACC * unit[2];
       const dist_vec = vectorDistance(x, y, z, xplanet, yplanet, zplanet);
+
+      this.mesh.up = new THREE.Vector3(unit[0], unit[1], unit[2]);
 
       const spherical = cartesian_to_spherical(
         dist_vec[0],
@@ -177,9 +181,9 @@ export class EntityMover extends Entity {
       // Vx = |V| * cos(alpha)
       // Vy = |v| * sin(alpha)
 
-      this.tx = -reference.u2[0] * 0.15;
-      this.ty = -reference.u2[1] * 0.15;
-      this.tz = -reference.u2[2] * 0.15;
+      this.tx = -reference.u1[0] * 0.15;
+      this.ty = -reference.u1[1] * 0.15;
+      this.tz = -reference.u1[2] * 0.15;
 
       // console.log(-reference.u2[0], -reference.u2[1], -reference.u2[2]);
 
@@ -192,9 +196,9 @@ export class EntityMover extends Entity {
           this.mesh.position.z
         ),
         new THREE.Vector3(
-          this.mesh.position.x + reference.u2[0] * 16,
-          this.mesh.position.y + reference.u2[1] * 16,
-          this.mesh.position.z + reference.u2[2] * 16
+          this.mesh.position.x + reference.u1[0] * 16,
+          this.mesh.position.y + reference.u1[1] * 16,
+          this.mesh.position.z + reference.u1[2] * 16
         ),
       ]);
 

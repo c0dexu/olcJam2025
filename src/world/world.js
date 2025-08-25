@@ -23,7 +23,7 @@ export class World {
     this.renderer = renderer;
     this.cameraObj = new CameraObject(this.renderer);
     this.cameraObj.distance = 54;
-    this.cameraObj.setPosition(5, 0, 0);
+    // this.cameraObj.setPosition(5, 0, 0);
     this.scene.add(this.light);
   }
 
@@ -39,7 +39,7 @@ export class World {
       color,
       args
     );
-
+    this.cameraObj.setTarget(entity);
     this.entities.set(entity.mesh.uuid, entity);
     entity.addToScene();
   }
@@ -66,6 +66,7 @@ export class World {
     this.entities.forEach((e, k, _) => {
       const nearestPlanet = this.findNearestPlanet(e.mesh.uuid);
       const planet = e.planet;
+      this.cameraObj.followTarget();
 
       if (
         nearestPlanet &&
