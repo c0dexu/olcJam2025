@@ -6,7 +6,7 @@ export class CameraObject {
   controls;
   target;
   distance = 8;
-  offset = new THREE.Matrix4().makeRotationY(Math.PI).setPosition(0, 0, -64);
+  offset = new THREE.Matrix4().makeRotationY(Math.PI).setPosition(0, -15, -64);
 
   final = new THREE.Matrix4();
 
@@ -24,10 +24,7 @@ export class CameraObject {
   followTarget() {
     if (this.target) {
       const targetMat = this.target.mesh.matrixWorld;
-      // const offset = targetMat.invert().multiply(this.camera.matrixWorld);
-      // const offsetPos = new THREE.Matrix4().copyPosition(offset);
-      // const temp = this.camera.matrixWorld.multiply(offsetPos);
-      // this.camera.matrixWorld.copy(offset);
+      // new THREE.Vector3().applyEuler();
       const temp = new THREE.Matrix4().lookAt(
         this.camera.position,
         this.target.mesh.position,

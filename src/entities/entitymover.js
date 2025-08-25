@@ -75,7 +75,8 @@ export class EntityMover extends Entity {
 
   hx = 0;
   hy = 0;
-  h = 0.15;
+  h = 0;
+  h_max = 0.15;
 
   constructor(
     scene,

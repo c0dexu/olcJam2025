@@ -18,15 +18,27 @@ function app() {
     world.initWorld(renderer);
     world.addEntity(
       256,
-      -128,
-      -128,
+      -512,
+      -512,
       0.5,
       "ICOSAHEDRON",
       "texture_test.png",
       0xffffff,
       [4, 4, 4]
     );
-    world.addPlanet(0, 0, 0, 0x74b370, 128, "grass.png");
+    world.addEntity(
+      256,
+      -400,
+      -400,
+      0.5,
+      "BOX",
+      "texture_test.png",
+      0xffffff,
+      [4, 4, 4]
+    );
+    world.setCameraTarget();
+    world.addPlanet(0, 0, 0, 0x74b370, 512, "grass.png");
+
     world.start();
   }, 500);
 }

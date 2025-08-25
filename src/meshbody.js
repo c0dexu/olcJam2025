@@ -46,6 +46,8 @@ export class MeshBody {
     if (this.texture_path) {
       const loader = new THREE.TextureLoader();
       const texture = loader.load(`assets/textures/${this.texture_path}`);
+      // texture.repeat = new THREE.Vector2(1, 4);
+      texture.wrapS = THREE.RepeatWrapping;
       texture.colorSpace = THREE.SRGBColorSpace;
       material.map = texture;
       this.texture = texture;

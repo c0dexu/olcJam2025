@@ -39,10 +39,16 @@ export class World {
       color,
       args
     );
-    this.cameraObj.setTarget(entity);
     this.entities.set(entity.mesh.uuid, entity);
     entity.addToScene();
   }
+
+  setCameraTarget() {
+    const entity = this.entities.values().next().value;
+    console.log("ENTITY", entity);
+    this.cameraObj.setTarget(entity);
+  }
+
   addPlanet(x0, y0, z0, color, radius, texture_path = null) {
     const planet = new Planet(
       this.scene,
