@@ -17,9 +17,9 @@ function app() {
     const world = new World(renderer);
     world.initWorld(renderer);
     world.addEntity(
-      -256,
+      256,
       -128,
-      32,
+      -128,
       0.5,
       "ICOSAHEDRON",
       "texture_test.png",

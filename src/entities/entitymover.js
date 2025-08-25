@@ -181,6 +181,8 @@ export class EntityMover extends Entity {
       this.ty = -reference.u2[1] * 0.15;
       this.tz = -reference.u2[2] * 0.15;
 
+      // console.log(-reference.u2[0], -reference.u2[1], -reference.u2[2]);
+
       // console.log(`theta = ${theta}; phi = ${phi}`);
 
       this.line.geometry.setFromPoints([
