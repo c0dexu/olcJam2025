@@ -6,7 +6,7 @@ export class CameraObject {
   controls;
   target;
   distance = 8;
-  offset = new THREE.Matrix4().makeRotationY(Math.PI).setPosition(0, -32, -128);
+  offset = new THREE.Matrix4().makeRotationY(Math.PI).setPosition(0, 0, -64);
 
   final = new THREE.Matrix4();
 
