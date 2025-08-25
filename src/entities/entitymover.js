@@ -2,6 +2,7 @@ import {
   cartesian_to_spherical,
   distance,
   dot,
+  magnitude,
   normal,
   units_sphere,
   vectorDistance,
@@ -62,7 +63,7 @@ export class EntityMover extends Entity {
   isInAir = false;
   isCollidingWithPlanet = false;
   planet = null;
-  alpha = Math.PI / 2;
+  alpha = -Math.PI / 4;
 
   lineMaterial;
   lineGeometry;
@@ -179,31 +180,23 @@ export class EntityMover extends Entity {
 
       const reference = units_sphere(this.theta, this.phi);
 
-      // V = Vx * u1 + Vy * u2
-      // Vx = |V| * cos(alpha)
-      // Vy = |v| * sin(alpha)
-
       this.hx = -this.h * Math.sin(this.alpha);
       this.hy = this.h * Math.cos(this.alpha);
-
-      const ux = Math.cos(this.alpha);
-      const uy = -Math.sin(this.alpha);
-
-      // const temp = new THREE.Mesh().setRotationFromAxisAngle(axis);
-
-      this.mesh.setRotationFromAxisAngle(
-        new THREE.Vector3(ux, 0, uy),
-        this.rotation
-      );
-      this.rotation += 0.01;
 
       this.tx = -(reference.u1[0] * this.hx + reference.u2[0] * this.hy);
       this.ty = -(reference.u1[1] * this.hx + reference.u2[1] * this.hy);
       this.tz = -(reference.u1[2] * this.hx + reference.u2[2] * this.hy);
 
-      // console.log(-reference.u2[0], -reference.u2[1], -reference.u2[2]);
+      const mv = magnitude(this.tx, this.ty, this.tz);
 
-      // console.log(`theta = ${theta}; phi = ${phi}`);
+      const vtemp = new THREE.Vector3(this.tx, this.ty, this.tz);
+      vtemp.applyEuler(new THREE.Euler(0, 0, -Math.PI / 2));
+
+      // new THREE.Mesh().setRotationFromAxisAngle(axis, angle)
+
+      this.mesh.setRotationFromAxisAngle(vtemp.normalize(), this.rotation);
+
+      this.rotation += 0.1 * mv;
 
       this.line.geometry.setFromPoints([
         new THREE.Vector3(
