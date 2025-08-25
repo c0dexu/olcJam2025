@@ -42,9 +42,7 @@ export class CameraObject {
 
       const targetMatPos = new THREE.Matrix4().copyPosition(targetMat);
 
-      this.camera.matrixWorld.copy(
-        targetMatPos.multiply(temp).multiply(this.offset)
-      );
+      this.camera.matrixWorld.copy(targetMatPos.multiply(this.offset));
       this.camera.updateMatrixWorld();
     }
   }

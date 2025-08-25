@@ -184,8 +184,6 @@ export class EntityMover extends Entity {
       this.my += unit[1] * this.jumpforce * this.jmp;
       this.mz += unit[2] * this.jumpforce * this.jmp;
 
-      console.log(this.jumpforce * this.jmp);
-
       const spherical = cartesian_to_spherical(
         dist_vec[0],
         dist_vec[1],
@@ -196,21 +194,32 @@ export class EntityMover extends Entity {
       this.phi = spherical[2];
 
       const reference = units_sphere(this.theta, this.phi);
+      if (this.hor > 0) {
+        this.alpha = Math.PI / 2;
+      }
+
+      if (this.hor < 0) {
+        this.alpha = -Math.PI / 2;
+      }
+
+      if (this.vert > 0) {
+        this.alpha = 0;
+      }
+
+      if (this.vert < 0) {
+        this.alpha = Math.PI;
+      }
 
       if (this.hor != 0 || this.vert != 0) {
         this.h += 0.01;
-        if (this.h > 2) {
+        if (Math.abs(this.h) > 2) {
           this.h = 2;
         }
       } else {
-        this.h *= 0.67;
+        this.h *= 0.97;
       }
-
-      const tt = (this.hor * Math.PI) / 2 + this.vert * Math.PI;
-
-      this.hx = -this.h * Math.sin(tt);
-      this.hy = this.h * Math.cos(tt);
-
+      this.hx = -this.h * Math.sin(this.alpha);
+      this.hy = this.h * Math.cos(this.alpha);
       this.tx = -(reference.u1[0] * this.hx + reference.u2[0] * this.hy);
       this.ty = -(reference.u1[1] * this.hx + reference.u2[1] * this.hy);
       this.tz = -(reference.u1[2] * this.hx + reference.u2[2] * this.hy);

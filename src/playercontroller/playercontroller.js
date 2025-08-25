@@ -13,7 +13,6 @@ export class PlayerController {
     const k = ev.code;
     ev.preventDefault();
     this.keys[k] = ev.type === "keydown";
-    console.log(this.keys);
   };
 
   setEntity = (et) => {
