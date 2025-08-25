@@ -12,17 +12,15 @@ function app() {
   renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientWidth);
 
   setTimeout(() => {
-    const controller = new PlayerController(document);
-    controller.listen();
     const world = new World(renderer);
     world.initWorld(renderer);
     world.addEntity(
       256,
-      -512,
-      -512,
+      -256,
+      -256,
       0.5,
-      "ICOSAHEDRON",
-      "texture_test.png",
+      "SPHERE",
+      "surface1.png",
       0xffffff,
       [4, 4, 4]
     );
@@ -32,12 +30,12 @@ function app() {
       -400,
       0.5,
       "BOX",
-      "texture_test.png",
+      "surface2.png",
       0xffffff,
       [4, 4, 4]
     );
     world.setCameraTarget();
-    world.addPlanet(0, 0, 0, 0x74b370, 512, "grass.png");
+    world.addPlanet(0, 0, 0, 0x74b370, 256, "grass.png");
 
     world.start();
   }, 500);

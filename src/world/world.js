@@ -3,6 +3,7 @@ import { CameraObject } from "../camera/cameraobj";
 import { EntityMover } from "../entities/entitymover";
 import { Planet } from "../entities/planet";
 import { distance } from "../utils";
+import { PlayerController } from "../playercontroller/playercontroller";
 
 export class World {
   entities = new Map();
@@ -13,6 +14,7 @@ export class World {
   scene;
   light;
   MAX_DIST_PLANET = 2048;
+  controller = new PlayerController(document);
 
   constructor() {}
 
@@ -45,7 +47,9 @@ export class World {
 
   setCameraTarget() {
     const entity = this.entities.values().next().value;
-    console.log("ENTITY", entity);
+    // entity.attachController(controller);
+    this.controller.setEntity(entity);
+    this.controller.listen();
     this.cameraObj.setTarget(entity);
   }
 
@@ -73,7 +77,7 @@ export class World {
       const nearestPlanet = this.findNearestPlanet(e.mesh.uuid);
       const planet = e.planet;
       this.cameraObj.followTarget();
-
+      this.controller.updateReaction();
       if (
         nearestPlanet &&
         (!planet || (planet && planet.mesh.uuid !== nearestPlanet.mesh.uuid))

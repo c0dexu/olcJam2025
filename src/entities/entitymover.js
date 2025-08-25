@@ -63,7 +63,7 @@ export class EntityMover extends Entity {
   isInAir = false;
   isCollidingWithPlanet = false;
   planet = null;
-  alpha = -Math.PI / 2.3;
+  alpha = 0;
 
   lineMaterial;
   lineGeometry;
@@ -77,6 +77,16 @@ export class EntityMover extends Entity {
   hy = 0;
   h = 0;
   h_max = 0.15;
+
+  // reactions
+  hor = 0;
+  vert = 0;
+  jmp = 0;
+
+  jumpforce = 15;
+  jx = 0;
+  jy = 0;
+  jz = 0;
 
   constructor(
     scene,
@@ -170,6 +180,12 @@ export class EntityMover extends Entity {
 
       this.mesh.up = new THREE.Vector3(unit[0], unit[1], unit[2]);
 
+      this.mx += unit[0] * this.jumpforce * this.jmp;
+      this.my += unit[1] * this.jumpforce * this.jmp;
+      this.mz += unit[2] * this.jumpforce * this.jmp;
+
+      console.log(this.jumpforce * this.jmp);
+
       const spherical = cartesian_to_spherical(
         dist_vec[0],
         dist_vec[1],
@@ -181,8 +197,19 @@ export class EntityMover extends Entity {
 
       const reference = units_sphere(this.theta, this.phi);
 
-      this.hx = -this.h * Math.sin(this.alpha);
-      this.hy = this.h * Math.cos(this.alpha);
+      if (this.hor != 0 || this.vert != 0) {
+        this.h += 0.01;
+        if (this.h > 2) {
+          this.h = 2;
+        }
+      } else {
+        this.h *= 0.67;
+      }
+
+      const tt = (this.hor * Math.PI) / 2 + this.vert * Math.PI;
+
+      this.hx = -this.h * Math.sin(tt);
+      this.hy = this.h * Math.cos(tt);
 
       this.tx = -(reference.u1[0] * this.hx + reference.u2[0] * this.hy);
       this.ty = -(reference.u1[1] * this.hx + reference.u2[1] * this.hy);

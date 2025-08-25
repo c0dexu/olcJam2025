@@ -5,8 +5,10 @@ export class CameraObject {
   camera;
   controls;
   target;
-  distance = 8;
-  offset = new THREE.Matrix4().makeRotationY(Math.PI).setPosition(0, -15, -64);
+  distance = 64;
+  offset = new THREE.Matrix4()
+    .makeRotationY(Math.PI)
+    .setPosition(0, -15, -this.distance);
 
   final = new THREE.Matrix4();
 
@@ -19,6 +21,13 @@ export class CameraObject {
 
   setTarget(target) {
     this.target = target;
+  }
+
+  zoomIn() {
+    this.distance -= 0.1;
+    this.offset = new THREE.Matrix4()
+      .makeRotationY(Math.PI)
+      .setPosition(0, -15, -this.distance);
   }
 
   followTarget() {
