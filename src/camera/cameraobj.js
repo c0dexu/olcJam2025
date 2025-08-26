@@ -5,7 +5,7 @@ export class CameraObject {
   camera;
   controls;
   target;
-  distance = 64;
+  distance = 128;
   offset = new THREE.Matrix4()
     .makeRotationY(Math.PI)
     .setPosition(0, -15, -this.distance);
@@ -37,12 +37,16 @@ export class CameraObject {
       const temp = new THREE.Matrix4().lookAt(
         this.camera.position,
         this.target.mesh.position,
-        this.target.mesh.up
+        new THREE.Vector3(0, 1, 0)
       );
+
+      const temp2 = new THREE.Matrix4().extractRotation(temp);
 
       const targetMatPos = new THREE.Matrix4().copyPosition(targetMat);
 
-      this.camera.matrixWorld.copy(targetMatPos.multiply(this.offset));
+      this.camera.matrixWorld.copy(
+        targetMatPos.multiply(temp2).multiply(this.offset)
+      );
       this.camera.updateMatrixWorld();
     }
   }

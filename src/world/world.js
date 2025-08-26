@@ -27,6 +27,15 @@ export class World {
     this.cameraObj.distance = 54;
     // this.cameraObj.setPosition(5, 0, 0);
     this.scene.add(this.light);
+    const loader = new THREE.TextureLoader();
+    const skyboxTexture = loader.load(
+      "../assets/textures/skybox_bluesky.png",
+      (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        texture.colorSpace = THREE.SRGBColorSpace;
+        this.scene.background = texture;
+      }
+    );
   }
 
   addEntity(x0, y0, z0, mass, geometry_type, texture_path, color, args) {
