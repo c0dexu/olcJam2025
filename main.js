@@ -32,7 +32,7 @@ function app() {
       "BOX",
       "surface2.png",
       0xffffff,
-      [4, 4, 4]
+      [16, 16, 16]
     );
     world.setCameraTarget();
     world.addPlanet(0, 0, 0, 0x74b370, 256, "grass.png");

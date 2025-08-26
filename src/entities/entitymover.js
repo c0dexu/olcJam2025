@@ -83,7 +83,7 @@ export class EntityMover extends Entity {
   vert = 0;
   jmp = 0;
 
-  jumpforce = 15;
+  jumpforce = 2;
   jx = 0;
   jy = 0;
   jz = 0;
@@ -180,9 +180,15 @@ export class EntityMover extends Entity {
 
       this.mesh.up = new THREE.Vector3(unit[0], unit[1], unit[2]);
 
-      this.mx += unit[0] * this.jumpforce * this.jmp;
-      this.my += unit[1] * this.jumpforce * this.jmp;
-      this.mz += unit[2] * this.jumpforce * this.jmp;
+      if (this.isCollidingWithPlanet) {
+        this.jx += -unit[0] * this.jumpforce * this.jmp;
+        this.jy += -unit[1] * this.jumpforce * this.jmp;
+        this.jz += -unit[2] * this.jumpforce * this.jmp;
+      } else {
+        this.jx *= 0.7;
+        this.jy *= 0.7;
+        this.jz *= 0.7;
+      }
 
       const spherical = cartesian_to_spherical(
         dist_vec[0],
@@ -252,9 +258,9 @@ export class EntityMover extends Entity {
       this.checkPlanetCollision();
     }
 
-    this.vx += (this.gx + this.rx) * this.deltaTime;
-    this.vy += (this.gy + this.ry) * this.deltaTime;
-    this.vz += (this.gz + this.rz) * this.deltaTime;
+    this.vx += (this.gx + this.rx + this.jx) * this.deltaTime;
+    this.vy += (this.gy + this.ry + this.jy) * this.deltaTime;
+    this.vz += (this.gz + this.rz + this.jz) * this.deltaTime;
 
     this.mx = this.vx + this.tx;
     this.my = this.vy + this.ty;
