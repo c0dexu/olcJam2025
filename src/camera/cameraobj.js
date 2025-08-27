@@ -112,21 +112,24 @@ export class CameraObject {
       //   this.camRelToTarget.z
       // );
 
-      this.offset = new THREE.Matrix4().setPosition(this.camRelToTarget);
+      this.offset = new THREE.Matrix4().setPosition(
+        new THREE.Vector3(0, 0, 200)
+      );
+
+      // const tempp = new THREE.Matrix4().lookAt(
+      //   this.camera.position,
+      //   this.target.mesh.position,
+      //   this.target.mesh.up
+      // );
+
+      const tempp = new THREE.Matrix4().lookAt(
+        this.camera.position,
+        planetMesh.position,
+        new THREE.Vector3(0, 1, 0)
+      );
 
       this.camera.matrixWorld.copy(
-        targetPos.multiply(
-          new THREE.Matrix4()
-            .makeRotationAxis(cross.normalize(), this.theta)
-            .multiply(this.offset)
-            .multiply(
-              new THREE.Matrix4().lookAt(
-                this.camera.position,
-                targetMesh.position,
-                cross.normalize()
-              )
-            )
-        )
+        targetPos.multiply(tempp).multiply(this.offset)
       );
 
       this.theta += 0.01;

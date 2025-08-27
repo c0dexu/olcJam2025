@@ -181,7 +181,9 @@ export class EntityMover extends Entity {
       this.gz = this.GRAV_ACC * unit[2];
       const dist_vec = vectorDistance(x, y, z, xplanet, yplanet, zplanet);
 
-      this.mesh.up = new THREE.Vector3(-unit[0], -unit[1], -unit[2]);
+      // this.mesh.up = new THREE.Vector3(-unit[0], -unit[1], -unit[2]);
+
+      this.mesh.lookAt(this.planet.mesh.position);
 
       if (this.isCollidingWithPlanet) {
         this.jx += -unit[0] * this.jumpforce * this.jmp;
@@ -241,7 +243,7 @@ export class EntityMover extends Entity {
 
       // new THREE.Mesh().setRotationFromAxisAngle(axis, angle)
 
-      this.mesh.setRotationFromAxisAngle(vtemp.normalize(), this.rotation);
+      // this.mesh.setRotationFromAxisAngle(vtemp.normalize(), this.rotation);
 
       this.rotation += 0.1 * mv;
 
