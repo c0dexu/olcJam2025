@@ -58,6 +58,7 @@ export class World {
     const entity = this.entities.values().next().value;
     // entity.attachController(controller);
     this.controller.setEntity(entity);
+    this.controller.setCamera(this.cameraObj);
     this.controller.listen();
     this.cameraObj.setTarget(entity);
   }

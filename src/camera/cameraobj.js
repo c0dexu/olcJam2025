@@ -16,6 +16,8 @@ export class CameraObject {
   camRelToTarget = new THREE.Vector3();
   theta = Math.PI * 0.67;
   alpha = 0;
+  rotA = 0;
+  rotB = 0;
 
   constructor(renderer) {
     this.camera = new THREE.PerspectiveCamera(70, 2, 3.4, 1000);
@@ -137,7 +139,8 @@ export class CameraObject {
           .multiply(this.offset)
       );
 
-      this.alpha += 0.001;
+      this.alpha += 0.01 * this.rotB;
+      this.theta += 0.01 * this.rotA;
 
       this.camera.updateMatrixWorld();
     }

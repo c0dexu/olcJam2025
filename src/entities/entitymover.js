@@ -83,7 +83,7 @@ export class EntityMover extends Entity {
   vert = 0;
   jmp = 0;
 
-  jumpforce = 17;
+  jumpforce = 8;
   jx = 0;
   jy = 0;
   jz = 0;
