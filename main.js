@@ -36,6 +36,7 @@ function app() {
     );
     world.setCameraTarget();
     world.addPlanet(0, 0, 0, 0x74b370, 256, "grass.png");
+    world.addPlanet(1024, 0, 0, 0x43ab7e, 512, "grass.png");
 
     world.start();
   }, 500);

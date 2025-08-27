@@ -83,10 +83,12 @@ export class EntityMover extends Entity {
   vert = 0;
   jmp = 0;
 
-  jumpforce = 2;
+  jumpforce = 17;
   jx = 0;
   jy = 0;
   jz = 0;
+
+  u = [];
 
   constructor(
     scene,
@@ -173,12 +175,13 @@ export class EntityMover extends Entity {
       const y = this.mesh.position.y;
       const z = this.mesh.position.z;
       const unit = normal(xplanet, yplanet, zplanet, x, y, z);
+      this.u = [...unit];
       this.gx = this.GRAV_ACC * unit[0];
       this.gy = this.GRAV_ACC * unit[1];
       this.gz = this.GRAV_ACC * unit[2];
       const dist_vec = vectorDistance(x, y, z, xplanet, yplanet, zplanet);
 
-      this.mesh.up = new THREE.Vector3(unit[0], unit[1], unit[2]);
+      this.mesh.up = new THREE.Vector3(-unit[0], -unit[1], -unit[2]);
 
       if (this.isCollidingWithPlanet) {
         this.jx += -unit[0] * this.jumpforce * this.jmp;
