@@ -243,7 +243,10 @@ export class EntityMover extends Entity {
 
       // new THREE.Mesh().setRotationFromAxisAngle(axis, angle)
 
-      this.mesh.setRotationFromAxisAngle(vtemp.normalize(), this.rotation);
+      const relPos = new THREE.Vector3(dist_vec[0], dist_vec[1], dist_vec[2]);
+      const vecSpd = new THREE.Vector3(this.tx, this.ty, this.tz);
+      const cross = relPos.cross(vecSpd).normalize();
+      this.mesh.setRotationFromAxisAngle(cross, this.rotation);
 
       this.rotation += 0.1 * mv;
 
