@@ -134,7 +134,12 @@ export class CameraObject {
       this.camera.matrixWorld.copy(
         targetPos
           .multiply(tempp)
-          .multiply(new THREE.Matrix4().makeRotationX(this.theta))
+          .multiply(
+            new THREE.Matrix4().makeRotationAxis(
+              new THREE.Vector3(0, 1, 0),
+              this.theta
+            )
+          )
           .multiply(new THREE.Matrix4().makeRotationY(this.alpha))
           .multiply(this.offset)
       );
