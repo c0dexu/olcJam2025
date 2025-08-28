@@ -14,6 +14,10 @@ export class PlayerController {
     const k = ev.code;
     ev.preventDefault();
     this.keys[k] = ev.type === "keydown";
+
+    if (this.keys.KeyR) {
+      this.entity.respawn();
+    }
   };
 
   setEntity = (et) => {

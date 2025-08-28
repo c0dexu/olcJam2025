@@ -130,6 +130,22 @@ export class EntityMover extends Entity {
     this.planet = planet;
   }
 
+  respawn() {
+    this.mesh.position.set(this.x0, this.y0, this.z0);
+    this.mx = 0;
+    this.my = 0;
+    this.mz = 0;
+    this.tx = 0;
+    this.ty = 0;
+    this.tz = 0;
+    this.gx = 0;
+    this.gy = 0;
+    this.gz = 0;
+    this.vx = 0;
+    this.vy = 0;
+    this.vz = 0;
+  }
+
   checkPlanetCollision = () => {
     if (!this.planet) return;
     const xplanet = this.planet.x0;
