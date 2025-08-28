@@ -97,14 +97,6 @@ export class MeshBody {
         this.geometry = new THREE.IcosahedronGeometry(this.args[0]);
         break;
 
-      case "CONE":
-        this.geometry = new THREE.ConeGeometry(
-          this.args[0],
-          this.args[1],
-          this.SEGMENTS
-        );
-        break;
-
       case "OCTAHEDRON":
         this.geometry = new THREE.OctahedronGeometry(this.args[0]);
         break;

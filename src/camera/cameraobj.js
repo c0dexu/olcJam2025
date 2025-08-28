@@ -15,11 +15,12 @@ export class CameraObject {
   targetRelativePosition = new THREE.Vector3();
   cameraRelativePosition = new THREE.Vector3();
   camRelToTarget = new THREE.Vector3();
-  theta = Math.PI * 0.67;
+  theta = 0;
   alpha = 0;
   rotA = 0;
   rotB = 0;
   zoomReact = 0;
+  audioListener = new THREE.AudioListener();
 
   constructor(renderer) {
     this.camera = new THREE.PerspectiveCamera(70, 2, 3.4, 10000);
@@ -27,6 +28,7 @@ export class CameraObject {
     // this.camera.position.set(128, 128, 0);
     this.camera.matrixAutoUpdate = false;
     this.camera.position.set(10, 0, 0);
+    this.camera.add(this.audioListener);
   }
 
   setTarget(target) {
@@ -88,7 +90,7 @@ export class CameraObject {
       this.camRelToTarget = this.camRelToTarget.normalize().multiplyScalar(256);
 
       if (this.zoomReact != 0) {
-        this.distance += 0.1 * this.zoomReact;
+        this.distance += 0.25 * this.zoomReact;
         this.distance = clamp(this.distance, 16, 256);
       }
 
@@ -105,12 +107,7 @@ export class CameraObject {
       this.camera.matrixWorld.copy(
         targetPos
           .multiply(camRot)
-          .multiply(
-            new THREE.Matrix4().makeRotationAxis(
-              new THREE.Vector3(0, 1, 0),
-              this.theta
-            )
-          )
+
           .multiply(new THREE.Matrix4().makeRotationY(this.alpha))
           .multiply(this.offset)
       );

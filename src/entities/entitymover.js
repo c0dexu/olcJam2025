@@ -90,6 +90,10 @@ export class EntityMover extends Entity {
 
   u = [];
 
+  audioLoader;
+  sound;
+  camera;
+
   constructor(
     scene,
     x0,

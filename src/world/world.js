@@ -61,6 +61,7 @@ export class World {
     this.controller.setCamera(this.cameraObj);
     this.controller.listen();
     this.cameraObj.setTarget(entity);
+    entity.camera = this.cameraObj.camera;
   }
 
   addPlanet(x0, y0, z0, color, radius, texture_path = null) {

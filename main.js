@@ -16,18 +16,18 @@ function app() {
     world.initWorld(renderer);
     world.addEntity(
       256,
-      -256,
-      -256,
+      -400,
+      -400,
       0.5,
-      "SPHERE",
+      "ICOSAHEDRON",
       "surface1.png",
       0xffffff,
-      [4, 4, 4]
+      [8, 8, 8]
     );
     world.addEntity(
       256,
-      -400,
-      -400,
+      -256,
+      -256,
       0.5,
       "BOX",
       "surface2.png",
@@ -36,7 +36,7 @@ function app() {
     );
     world.setCameraTarget();
     world.addPlanet(0, 0, 0, 0xffffff, 256, "surface3.png");
-    world.addPlanet(2048, 0, 0, 0x43ab7e, 1024, "grass.png");
+    world.addPlanet(2024, 0, 0, 0x43ab7e, 1024, "grass.png");
 
     world.start();
   }, 500);
