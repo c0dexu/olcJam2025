@@ -104,6 +104,10 @@ export class MeshBody {
           this.SEGMENTS
         );
         break;
+
+      case "OCTAHEDRON":
+        this.geometry = new THREE.OctahedronGeometry(this.args[0]);
+        break;
     }
   }
 

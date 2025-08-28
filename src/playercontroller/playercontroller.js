@@ -36,6 +36,8 @@ export class PlayerController {
     let rotA = this.keys.KeyW ? 1 : this.keys.KeyS ? -1 : 0;
     let rotB = this.keys.KeyA ? 1 : this.keys.KeyD ? -1 : 0;
 
+    let zoomReact = this.keys.KeyE ? 1 : this.keys.KeyQ ? -1 : 0;
+
     if (this.entity) {
       this.entity.hor = hor;
       this.entity.vert = vert;
@@ -45,6 +47,7 @@ export class PlayerController {
     if (this.camera) {
       this.camera.rotA = rotA;
       this.camera.rotB = rotB;
+      this.camera.zoomReact = zoomReact;
     }
   };
 

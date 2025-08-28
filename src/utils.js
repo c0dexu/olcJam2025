@@ -43,12 +43,6 @@ export function cartesian_to_spherical(x, y, z) {
 export function units_sphere(theta, phi) {
   const u1 = [-Math.sin(theta), 0, Math.cos(theta)];
 
-  // const u2 = [
-  //   Math.cos(theta) * Math.cos(phi),
-  //   Math.sin(theta) * Math.cos(phi),
-  //   -Math.sin(phi),
-  // ];
-
   const u2 = [
     Math.cos(theta) * Math.cos(phi),
     -Math.sin(phi),
@@ -56,4 +50,10 @@ export function units_sphere(theta, phi) {
   ];
 
   return { u1, u2 };
+}
+
+function clamp(x, a, b) {
+  if (x < a) return a;
+  if (x > b) return b;
+  return x;
 }

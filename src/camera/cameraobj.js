@@ -1,12 +1,13 @@
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
 import { normal, vectorDistance } from "../utils";
+import { clamp } from "three/src/math/MathUtils.js";
 
 export class CameraObject {
   camera;
   controls;
   target;
-  distance = 256;
+  distance = 128;
   offset = new THREE.Matrix4();
 
   final = new THREE.Matrix4();
@@ -18,6 +19,7 @@ export class CameraObject {
   alpha = 0;
   rotA = 0;
   rotB = 0;
+  zoomReact = 0;
 
   constructor(renderer) {
     this.camera = new THREE.PerspectiveCamera(70, 2, 3.4, 1000);
@@ -31,11 +33,8 @@ export class CameraObject {
     this.target = target;
   }
 
-  zoomIn() {
-    this.distance -= 0.1;
-    this.offset = new THREE.Matrix4()
-      .makeRotationY(Math.PI)
-      .setPosition(0, -15, -this.distance);
+  zoom(sign) {
+    this.distance += 0.1 * sign;
   }
 
   followTarget() {
@@ -88,9 +87,10 @@ export class CameraObject {
 
       this.camRelToTarget = this.camRelToTarget.normalize().multiplyScalar(256);
 
-      const cross = this.targetRelativePosition.cross(
-        this.cameraRelativePosition
-      );
+      if (this.zoomReact != 0) {
+        this.distance += 0.1 * this.zoomReact;
+        this.distance = clamp(this.distance, 16, 256);
+      }
 
       // this.offset = new THREE.Matrix4().setPosition(cross);
 
@@ -116,7 +116,7 @@ export class CameraObject {
       // );
 
       this.offset = new THREE.Matrix4().setPosition(
-        new THREE.Vector3(0, 0, 200)
+        new THREE.Vector3(0, 0, this.distance)
       );
 
       // const tempp = new THREE.Matrix4().lookAt(
