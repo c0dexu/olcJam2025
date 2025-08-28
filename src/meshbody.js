@@ -90,15 +90,19 @@ export class MeshBody {
         break;
 
       case "SPHERE":
-        this.geometry = new THREE.SphereGeometry(
-          this.args[0],
-          this.SEGMENTS,
-          this.SEGMENTS
-        );
+        this.geometry = new THREE.DodecahedronGeometry(this.args[0], 4);
         break;
 
       case "ICOSAHEDRON":
         this.geometry = new THREE.IcosahedronGeometry(this.args[0]);
+        break;
+
+      case "CONE":
+        this.geometry = new THREE.ConeGeometry(
+          this.args[0],
+          this.args[1],
+          this.SEGMENTS
+        );
         break;
     }
   }
