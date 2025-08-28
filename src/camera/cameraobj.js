@@ -7,7 +7,7 @@ export class CameraObject {
   camera;
   controls;
   target;
-  distance = 128;
+  distance = 256;
   offset = new THREE.Matrix4();
 
   final = new THREE.Matrix4();
@@ -22,7 +22,7 @@ export class CameraObject {
   zoomReact = 0;
 
   constructor(renderer) {
-    this.camera = new THREE.PerspectiveCamera(70, 2, 3.4, 1000);
+    this.camera = new THREE.PerspectiveCamera(70, 2, 3.4, 10000);
     // this.controls = new OrbitControls(this.camera, renderer.domElement);
     // this.camera.position.set(128, 128, 0);
     this.camera.matrixAutoUpdate = false;
@@ -92,40 +92,11 @@ export class CameraObject {
         this.distance = clamp(this.distance, 16, 256);
       }
 
-      // this.offset = new THREE.Matrix4().setPosition(cross);
-
-      // this.camera.position.set(
-      //   targetMesh.position.x - this.camRelToTarget.x * 64,
-      //   targetMesh.position.y - this.camRelToTarget.y * 64,
-      //   targetMesh.position.z - this.camRelToTarget.z * 64
-      // );
-
-      // this.camera.rotateOnAxis(cross.normalize(), 0.001);
-
-      // const rotMatrix = new THREE.Matrix4().makeRotationAxis(
-      //   cross.normalize(),
-      //   this.theta
-      // );
-
-      const rotMatrix = new THREE.Matrix4().makeRotationX(this.theta);
-
-      // this.offset = new THREE.Matrix4().setPosition(
-      //   this.camRelToTarget.x,
-      //   this.camRelToTarget.y,
-      //   this.camRelToTarget.z
-      // );
-
       this.offset = new THREE.Matrix4().setPosition(
         new THREE.Vector3(0, 0, this.distance)
       );
 
-      // const tempp = new THREE.Matrix4().lookAt(
-      //   this.camera.position,
-      //   this.target.mesh.position,
-      //   this.target.mesh.up
-      // );
-
-      const tempp = new THREE.Matrix4().lookAt(
+      const camRot = new THREE.Matrix4().lookAt(
         this.camera.position,
         planetMesh.position,
         new THREE.Vector3(0, 1, 0)
@@ -133,7 +104,7 @@ export class CameraObject {
 
       this.camera.matrixWorld.copy(
         targetPos
-          .multiply(tempp)
+          .multiply(camRot)
           .multiply(
             new THREE.Matrix4().makeRotationAxis(
               new THREE.Vector3(0, 1, 0),

@@ -83,7 +83,7 @@ export class EntityMover extends Entity {
   vert = 0;
   jmp = 0;
 
-  jumpforce = 8;
+  jumpforce = 12;
   jx = 0;
   jy = 0;
   jz = 0;
@@ -249,19 +249,6 @@ export class EntityMover extends Entity {
       this.mesh.setRotationFromAxisAngle(cross, this.rotation);
 
       this.rotation += 0.1 * mv;
-
-      this.line.geometry.setFromPoints([
-        new THREE.Vector3(
-          this.mesh.position.x,
-          this.mesh.position.y,
-          this.mesh.position.z
-        ),
-        new THREE.Vector3(
-          this.mesh.position.x + vtemp.x * 16,
-          this.mesh.position.y + vtemp.y * 16,
-          this.mesh.position.z + vtemp.z * 16
-        ),
-      ]);
 
       this.checkPlanetCollision();
     }
