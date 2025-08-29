@@ -64,6 +64,7 @@ export class EntityMover extends Entity {
   isCollidingWithPlanet = false;
   planet = null;
   alpha = 0;
+  beta = 0;
 
   lineMaterial;
   lineGeometry;
@@ -75,8 +76,8 @@ export class EntityMover extends Entity {
 
   hx = 0;
   hy = 0;
-  h = 0;
-  h_max = 0.15;
+  h = 0.15;
+  h_max = 0.95;
 
   // reactions
   hor = 0;
@@ -225,32 +226,23 @@ export class EntityMover extends Entity {
       this.phi = spherical[2];
 
       const reference = units_sphere(this.theta, this.phi);
-      if (this.hor > 0) {
-        this.alpha = Math.PI / 2;
-      }
 
-      if (this.hor < 0) {
-        this.alpha = -Math.PI / 2;
-      }
-
-      if (this.vert > 0) {
-        this.alpha = 0;
-      }
-
-      if (this.vert < 0) {
-        this.alpha = Math.PI;
-      }
+      this.alpha = Math.min(0, Math.PI * this.vert);
+      this.beta = (Math.PI / 2) * this.hor;
 
       if (this.hor != 0 || this.vert != 0) {
-        this.h += 0.01;
-        if (Math.abs(this.h) > 2) {
-          this.h = 2;
+        if (this.hx * this.hx + this.hy * this.hy <= this.h_max * this.h_max) {
+          this.hx += -this.h * Math.sin(this.alpha + this.beta) * 0.1;
+          this.hy += this.h * Math.cos(this.alpha + this.beta) * 0.1;
+        } else {
+          this.hx = -this.h_max * Math.sin(this.alpha + this.beta);
+          this.hy = this.h_max * Math.cos(this.alpha + this.beta);
         }
       } else {
-        this.h *= 0.97;
+        this.hx *= 0.97;
+        this.hy *= 0.97;
       }
-      this.hx = -this.h * Math.sin(this.alpha);
-      this.hy = this.h * Math.cos(this.alpha);
+
       this.tx = -(reference.u1[0] * this.hx + reference.u2[0] * this.hy);
       this.ty = -(reference.u1[1] * this.hx + reference.u2[1] * this.hy);
       this.tz = -(reference.u1[2] * this.hx + reference.u2[2] * this.hy);

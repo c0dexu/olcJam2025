@@ -32,10 +32,6 @@ export class PlayerController {
     let vert = this.keys.ArrowUp ? 1 : this.keys.ArrowDown ? -1 : 0;
     let hor = this.keys.ArrowLeft ? 1 : this.keys.ArrowRight ? -1 : 0;
     let jmp = this.keys.KeyX ? 1 : 0;
-    // let key_w = this.keys.ketW ? 1 : 0;
-    // let key_s = this.keys.ketS ? -1 : 0;
-    // let key_a = this.keys.ketA ? 1 : 0;
-    // let key_d = this.keys.ketD ? -1 : 0;
 
     let rotA = this.keys.KeyW ? 1 : this.keys.KeyS ? -1 : 0;
     let rotB = this.keys.KeyA ? 1 : this.keys.KeyD ? -1 : 0;
