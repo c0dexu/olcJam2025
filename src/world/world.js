@@ -28,14 +28,11 @@ export class World {
     // this.cameraObj.setPosition(5, 0, 0);
     this.scene.add(this.light);
     const loader = new THREE.TextureLoader();
-    const skyboxTexture = loader.load(
-      "../assets/textures/skybox_bluesky.png",
-      (texture) => {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        texture.colorSpace = THREE.SRGBColorSpace;
-        this.scene.background = texture;
-      }
-    );
+    loader.load("../assets/textures/skybox_bluesky.png", (texture) => {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      texture.colorSpace = THREE.SRGBColorSpace;
+      this.scene.background = texture;
+    });
   }
 
   addEntity(x0, y0, z0, mass, geometry_type, texture_path, color, args) {
@@ -98,6 +95,9 @@ export class World {
       e.update();
     });
 
+    const canvas = this.renderer.domElement;
+    this.cameraObj.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    this.cameraObj.camera.updateProjectionMatrix();
     this.renderer.render(this.scene, this.cameraObj.camera);
     requestAnimationFrame(this.gameloop);
   };

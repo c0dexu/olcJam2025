@@ -19,8 +19,8 @@ function app() {
       -400,
       -400,
       0.5,
-      "SPHERE",
-      "surface1.png",
+      "CYLINDER",
+      "surface2.png",
       0xffffff,
       [8, 8, 8]
     );
@@ -30,7 +30,7 @@ function app() {
       -256,
       0.5,
       "BOX",
-      "surface2.png",
+      "surface1.png",
       0xffffff,
       [16, 16, 16]
     );

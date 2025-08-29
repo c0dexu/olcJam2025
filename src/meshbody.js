@@ -47,13 +47,11 @@ export class MeshBody {
       this.calculateBoundingSphere();
       const loader = new THREE.TextureLoader();
       const texture = loader.load(`assets/textures/${this.texture_path}`);
+      const radius = this.boundingSphere.radius;
+      console.log(radius / 64);
       texture.repeat = new THREE.Vector2(
-        this.boundingSphere.radius / 64 <= 0.1
-          ? 1
-          : this.boundingSphere.radius / 64,
-        this.boundingSphere.radius / 64 <= 0.1
-          ? 1
-          : this.boundingSphere.radius / 64
+        radius / 64 <= 0.2 ? 1 : radius / 64,
+        radius / 64 <= 0.2 ? 1 : radius / 64
       );
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
@@ -117,6 +115,7 @@ export class MeshBody {
           this.SEGMENTS,
           this.SEGMENTS
         );
+        break;
 
       case "TORUS_KNOT":
         this.geometry = new THREE.TorusKnotGeometry(
