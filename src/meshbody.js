@@ -44,10 +44,19 @@ export class MeshBody {
     });
 
     if (this.texture_path) {
+      this.calculateBoundingSphere();
       const loader = new THREE.TextureLoader();
       const texture = loader.load(`assets/textures/${this.texture_path}`);
-      // texture.repeat = new THREE.Vector2(1, 4);
+      texture.repeat = new THREE.Vector2(
+        this.boundingSphere.radius / 64 <= 0.1
+          ? 1
+          : this.boundingSphere.radius / 64,
+        this.boundingSphere.radius / 64 <= 0.1
+          ? 1
+          : this.boundingSphere.radius / 64
+      );
       texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
       texture.colorSpace = THREE.SRGBColorSpace;
       material.map = texture;
       this.texture = texture;
@@ -90,7 +99,7 @@ export class MeshBody {
         break;
 
       case "SPHERE":
-        this.geometry = new THREE.DodecahedronGeometry(this.args[0], 4);
+        this.geometry = new THREE.DodecahedronGeometry(this.args[0], 3);
         break;
 
       case "ICOSAHEDRON":
