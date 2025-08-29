@@ -19,7 +19,7 @@ function app() {
       -400,
       -400,
       0.5,
-      "ICOSAHEDRON",
+      "SPHERE",
       "surface1.png",
       0xffffff,
       [8, 8, 8]

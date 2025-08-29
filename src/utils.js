@@ -52,7 +52,7 @@ export function units_sphere(theta, phi) {
   return { u1, u2 };
 }
 
-function clamp(x, a, b) {
+export function clamp(x, a, b) {
   if (x < a) return a;
   if (x > b) return b;
   return x;

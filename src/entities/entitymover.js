@@ -12,7 +12,7 @@ import * as THREE from "three";
 
 // TODO: entity used for objects affected by physics
 export class EntityMover extends Entity {
-  GRAV_ACC = 0.25;
+  GRAV_ACC = 0.45;
   scene;
   health = 1;
   geometry_type;
@@ -84,7 +84,7 @@ export class EntityMover extends Entity {
   vert = 0;
   jmp = 0;
 
-  jumpforce = 12;
+  jumpforce = 4;
   jx = 0;
   jy = 0;
   jz = 0;
@@ -252,8 +252,6 @@ export class EntityMover extends Entity {
       let vtemp = new THREE.Vector3(this.tx, this.ty, this.tz);
 
       vtemp = vtemp.setFromEuler(new THREE.Euler(0, Math.PI, 0));
-
-      // new THREE.Mesh().setRotationFromAxisAngle(axis, angle)
 
       const relPos = new THREE.Vector3(dist_vec[0], dist_vec[1], dist_vec[2]);
       const vecSpd = new THREE.Vector3(this.tx, this.ty, this.tz);

@@ -100,6 +100,24 @@ export class MeshBody {
       case "OCTAHEDRON":
         this.geometry = new THREE.OctahedronGeometry(this.args[0]);
         break;
+
+      case "TORUS":
+        this.geometry = new THREE.TorusGeometry(
+          this.args[0],
+          this.args[1] / 2,
+          this.SEGMENTS,
+          this.SEGMENTS
+        );
+
+      case "TORUS_KNOT":
+        this.geometry = new THREE.TorusKnotGeometry(
+          this.args[0],
+          this.args[0] / 4,
+          this.SEGMENTS * 2,
+          this.SEGMENTS,
+          3,
+          2
+        );
     }
   }
 
