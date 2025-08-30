@@ -85,14 +85,14 @@ export class EntityMover extends Entity {
   vert = 0;
   jmp = 0;
 
-  jumpforce = 4;
+  jumpforce = 9;
   jx = 0;
   jy = 0;
   jz = 0;
 
   u = [];
 
-  audioLoader;
+  audioLoader = new THREE.AudioLoader();
   sound;
   camera;
 
@@ -278,6 +278,10 @@ export class EntityMover extends Entity {
       this.rotation += 0.1 * mv;
 
       this.checkPlanetCollision();
+    }
+
+    if (this.sound && this.jmp > 0 && this.isCollidingWithPlanet) {
+      this.sound.play();
     }
 
     this.vx += (this.gx + this.rx + this.jx) * this.deltaTime;

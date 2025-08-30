@@ -15,7 +15,7 @@ export class World {
   scene;
   light;
   MAX_DIST_PLANET = 2048;
-  MAX_ENTITIES = 50;
+  MAX_ENTITIES = 78;
   controller = new PlayerController(document);
 
   constructor() {}
@@ -61,7 +61,16 @@ export class World {
       isBot
     );
     this.entities.set(entity.mesh.uuid, entity);
+    entity.sound = new THREE.PositionalAudio(this.cameraObj.audioListener);
+    entity.audioLoader.load("assets/sounds/jump.mp3", (buffer) => {
+      entity.sound.setBuffer(buffer);
+      entity.sound.setRefDistance(16);
+      entity.sound.setMaxDistance(64);
+      // entity.sound.add(entity.mesh);
+      entity.mesh.add(entity.sound);
+    });
     entity.addToScene();
+
     return entity;
   }
 
@@ -100,6 +109,8 @@ export class World {
           "surface1.png",
           "surface2.png",
           "surface3.png",
+          "surface4.png",
+          "surface5.png",
         ];
 
         const geometries = geometry_types;
@@ -132,7 +143,7 @@ export class World {
           THREE.MathUtils.randInt(5, 25),
         ];
 
-        this.addEntity(
+        const entity = this.addEntity(
           entityPosition.x,
           entityPosition.y,
           entityPosition.z,
