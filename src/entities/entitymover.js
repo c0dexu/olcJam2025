@@ -84,8 +84,10 @@ export class EntityMover extends Entity {
   hor = 0;
   vert = 0;
   jmp = 0;
+  superjmp = 0;
 
   jumpforce = 9;
+  superjump = 20;
   jx = 0;
   jy = 0;
   jz = 0;
@@ -224,9 +226,15 @@ export class EntityMover extends Entity {
       this.mesh.lookAt(this.planet.mesh.position);
 
       if (this.isCollidingWithPlanet) {
-        this.jx += -unit[0] * this.jumpforce * this.jmp;
-        this.jy += -unit[1] * this.jumpforce * this.jmp;
-        this.jz += -unit[2] * this.jumpforce * this.jmp;
+        this.jx +=
+          -unit[0] *
+          (this.jumpforce * this.jmp + this.superjump * this.superjmp);
+        this.jy +=
+          -unit[1] *
+          (this.jumpforce * this.jmp + this.superjump * this.superjmp);
+        this.jz +=
+          -unit[2] *
+          (this.jumpforce * this.jmp + this.superjump * this.superjmp);
       } else {
         this.jx *= 0.7;
         this.jy *= 0.7;
@@ -280,7 +288,11 @@ export class EntityMover extends Entity {
       this.checkPlanetCollision();
     }
 
-    if (this.sound && this.jmp > 0 && this.isCollidingWithPlanet) {
+    if (
+      this.sound &&
+      (this.jmp > 0 || this.superjmp > 0) &&
+      this.isCollidingWithPlanet
+    ) {
       this.sound.play();
     }
 

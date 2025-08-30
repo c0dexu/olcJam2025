@@ -14,21 +14,20 @@ function app() {
   setTimeout(() => {
     const world = new World(renderer);
     world.initWorld(renderer);
-    const player = world.addEntity(
-      256,
-      -400,
-      -400,
-      0.5,
-      "CYLINDER",
-      "surface2.png",
-      0xffffff,
-      [8, 8, 8],
-      false
-    );
-    world.setCameraTarget(player);
+    // const player = world.addEntity(
+    //   256,
+    //   -400,
+    //   -400,
+    //   0.5,
+    //   "CYLINDER",
+    //   "surface2.png",
+    //   0xffffff,
+    //   [8, 8, 8],
+    //   false
+    // );
     world.addPlanet(0, 0, 0, 0xffffff, 256, "surface3.png");
     world.addPlanet(2024, 0, 0, 0x43ab7e, 1024, "grass.png");
-    world.addPlanet(-256, 1024, 256, 0x43ab7e, 512, "grass.png");
+    world.addPlanet(-256, -1012, 0, 0xffffff, 512, "surface6.png");
     setTimeout(() => {
       world.start();
       world.generateRandomEntities();

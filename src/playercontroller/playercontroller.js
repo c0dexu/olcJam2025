@@ -32,6 +32,7 @@ export class PlayerController {
     let vert = this.keys.ArrowUp ? 1 : this.keys.ArrowDown ? -1 : 0;
     let hor = this.keys.ArrowLeft ? 1 : this.keys.ArrowRight ? -1 : 0;
     let jmp = this.keys.KeyX ? 1 : 0;
+    let superjmp = this.keys.KeyZ ? 1 : 0;
 
     let rotA = this.keys.KeyW ? 1 : this.keys.KeyS ? -1 : 0;
     let rotB = this.keys.KeyA ? 1 : this.keys.KeyD ? -1 : 0;
@@ -42,6 +43,7 @@ export class PlayerController {
       this.entity.hor = hor;
       this.entity.vert = vert;
       this.entity.jmp = jmp;
+      this.entity.superjmp = superjmp;
     }
 
     if (this.camera) {

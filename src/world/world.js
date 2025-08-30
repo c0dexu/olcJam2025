@@ -102,6 +102,7 @@ export class World {
 
   generateRandomEntities() {
     const n = THREE.MathUtils.randInt(5, this.MAX_ENTITIES);
+    let firstPlayer = false;
     for (let planet of this.planets) {
       for (let i = 0; i < n; i++) {
         const textures = [
@@ -111,6 +112,7 @@ export class World {
           "surface3.png",
           "surface4.png",
           "surface5.png",
+          "surface6.png",
         ];
 
         const geometries = geometry_types;
@@ -122,9 +124,21 @@ export class World {
         const yd = Math.random();
         const zd = Math.sqrt(1 - xd * xd + yd * yd);
         const direction = new THREE.Vector3(xd, yd, zd);
+        const ds = direction.multiplyScalar(planet.radius);
+        const entityPosition = planetPosition.add(ds);
 
-        const entityPosition = planetPosition.add(
-          direction.multiplyScalar((3 * planet.radius) / 2)
+        const dx = entityPosition.x - planetPosition.x;
+        const dy = entityPosition.y - planetPosition.y;
+        const dz = entityPosition.z - planetPosition.z;
+
+        const u = new THREE.Vector3(dx, dy, dz).normalize();
+        const projection = ds.dot(u);
+
+        const corrected_u = u.multiplyScalar(projection);
+        entityPosition.set(
+          planetPosition.x + corrected_u.x,
+          planetPosition.y + corrected_u.y,
+          planetPosition.z + corrected_u.z
         );
 
         const selectedGeometry =
@@ -152,8 +166,12 @@ export class World {
           selectedTexture,
           `rgb(${r},${g},${b})`,
           args,
-          true
+          i > 0
         );
+
+        if (i === 0) {
+          this.setCameraTarget(entity);
+        }
       }
     }
   }
