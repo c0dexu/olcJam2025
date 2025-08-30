@@ -4,6 +4,7 @@ import { EntityMover } from "../entities/entitymover";
 import { Planet } from "../entities/planet";
 import { distance } from "../utils";
 import { PlayerController } from "../playercontroller/playercontroller";
+import { geometry_types } from "../meshbody";
 
 export class World {
   entities = new Map();
@@ -14,6 +15,7 @@ export class World {
   scene;
   light;
   MAX_DIST_PLANET = 2048;
+  MAX_ENTITIES = 50;
   controller = new PlayerController(document);
 
   constructor() {}
@@ -35,7 +37,17 @@ export class World {
     });
   }
 
-  addEntity(x0, y0, z0, mass, geometry_type, texture_path, color, args) {
+  addEntity(
+    x0,
+    y0,
+    z0,
+    mass,
+    geometry_type,
+    texture_path,
+    color,
+    args,
+    isBot = true
+  ) {
     const entity = new EntityMover(
       this.scene,
       x0,
@@ -45,20 +57,22 @@ export class World {
       geometry_type,
       texture_path,
       color,
-      args
+      args,
+      isBot
     );
     this.entities.set(entity.mesh.uuid, entity);
     entity.addToScene();
+    return entity;
   }
 
-  setCameraTarget() {
-    const entity = this.entities.values().next().value;
+  setCameraTarget(entity) {
     // entity.attachController(controller);
     this.controller.setEntity(entity);
     this.controller.setCamera(this.cameraObj);
     this.controller.listen();
     this.cameraObj.setTarget(entity);
     entity.camera = this.cameraObj.camera;
+    console.log("CALL");
   }
 
   addPlanet(x0, y0, z0, color, radius, texture_path = null) {
@@ -77,6 +91,62 @@ export class World {
 
   getEntity(id) {
     return this.entities.get(id);
+  }
+
+  generateRandomEntities() {
+    const n = THREE.MathUtils.randInt(5, this.MAX_ENTITIES);
+    for (let planet of this.planets) {
+      for (let i = 0; i < n; i++) {
+        const textures = [
+          "surface0.png",
+          "surface1.png",
+          "surface2.png",
+          "surface3.png",
+        ];
+
+        const geometries = geometry_types;
+        const xp = planet.mesh.position.x;
+        const yp = planet.mesh.position.y;
+        const zp = planet.mesh.position.z;
+        const planetPosition = new THREE.Vector3(xp, yp, zp);
+        const xd = Math.random();
+        const yd = Math.random();
+        const zd = Math.sqrt(1 - xd * xd + yd * yd);
+        const direction = new THREE.Vector3(xd, yd, zd);
+
+        const entityPosition = planetPosition.add(
+          direction.multiplyScalar((3 * planet.radius) / 2)
+        );
+
+        const selectedGeometry =
+          geometries[THREE.MathUtils.randInt(0, geometries.length - 1)];
+
+        const selectedTexture =
+          textures[THREE.MathUtils.randInt(0, textures.length - 1)];
+
+        const r = THREE.MathUtils.randInt(0, 255);
+        const g = THREE.MathUtils.randInt(0, 255);
+        const b = THREE.MathUtils.randInt(0, 255);
+
+        const args = [
+          THREE.MathUtils.randInt(5, 25),
+          THREE.MathUtils.randInt(5, 25),
+          THREE.MathUtils.randInt(5, 25),
+        ];
+
+        this.addEntity(
+          entityPosition.x,
+          entityPosition.y,
+          entityPosition.z,
+          0.5,
+          selectedGeometry,
+          selectedTexture,
+          `rgb(${r},${g},${b})`,
+          args,
+          true
+        );
+      }
+    }
   }
 
   gameloop = (time) => {
@@ -130,6 +200,21 @@ export class World {
     });
     return nearestPlanet;
   };
+
+  generateRandomWorld(n = 10, p_planet = 0.6, p_entity = 0.4) {
+    for (let i = 0; i < n; i++) {
+      const p0 = Math.random();
+      const p1 = Math.random();
+
+      if (p0 > p_planet) {
+        // TODO: generate planet
+      }
+
+      if (p1 > p_entity) {
+        // TODO: generate_entity
+      }
+    }
+  }
 
   start() {
     requestAnimationFrame(this.gameloop);

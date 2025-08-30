@@ -1,3 +1,4 @@
+import { BotController } from "../bot/botcontroller";
 import {
   cartesian_to_spherical,
   distance,
@@ -95,6 +96,9 @@ export class EntityMover extends Entity {
   sound;
   camera;
 
+  isBot = false;
+  bot;
+
   constructor(
     scene,
     x0,
@@ -104,7 +108,8 @@ export class EntityMover extends Entity {
     geometry_type,
     texture_path,
     color,
-    args
+    args,
+    isBot = true
   ) {
     super(scene, x0, y0, z0, geometry_type, texture_path, color, args);
     this.scene = scene;
@@ -121,6 +126,11 @@ export class EntityMover extends Entity {
     this.line = new THREE.Line(this.lineGeometry, this.lineMaterial);
     this.scene.add(this.line);
     this.getMeshBody().calculateBoundingSphere();
+    this.isBot = isBot;
+
+    if (isBot) {
+      this.bot = new BotController();
+    }
   }
 
   addToScene() {
@@ -188,6 +198,13 @@ export class EntityMover extends Entity {
   };
 
   update = () => {
+    if (this.isBot) {
+      this.vert = this.bot.vert;
+      this.hor = this.bot.hor;
+      this.jmp = this.bot.jmp;
+      this.bot.moveRandomly();
+    }
+
     if (this.planet) {
       const xplanet = this.planet.x0;
       const yplanet = this.planet.y0;

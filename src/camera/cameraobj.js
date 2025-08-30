@@ -90,7 +90,7 @@ export class CameraObject {
       this.camRelToTarget = this.camRelToTarget.normalize().multiplyScalar(256);
 
       if (this.zoomReact != 0) {
-        this.distance += 0.25 * this.zoomReact;
+        this.distance += 0.015 * this.zoomReact;
         this.distance = clamp(this.distance, 16, 256);
       }
 
@@ -112,8 +112,8 @@ export class CameraObject {
           .multiply(this.offset)
       );
 
-      this.alpha += 0.01 * this.rotB;
-      this.theta += 0.01 * this.rotA;
+      this.alpha += 0.001 * this.rotB;
+      this.theta += 0.001 * this.rotA;
 
       this.camera.updateMatrixWorld();
     }

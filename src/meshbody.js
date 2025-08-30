@@ -1,5 +1,16 @@
 import * as THREE from "three";
 
+export const geometry_types = [
+  "BOX",
+  "CONE",
+  "CYLINDER",
+  "TORUS",
+  "TORUS_KNOT",
+  "ICOSAHEDRON",
+  "SPHERE",
+  "OCTAHEDRON",
+];
+
 export class MeshBody {
   SEGMENTS = 13;
   geometry_type;
@@ -48,7 +59,6 @@ export class MeshBody {
       const loader = new THREE.TextureLoader();
       const texture = loader.load(`assets/textures/${this.texture_path}`);
       const radius = this.boundingSphere.radius;
-      console.log(radius / 64);
       texture.repeat = new THREE.Vector2(
         radius / 64 <= 0.2 ? 1 : radius / 64,
         radius / 64 <= 0.2 ? 1 : radius / 64
