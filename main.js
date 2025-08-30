@@ -35,12 +35,8 @@ function app() {
   }, 500);
 }
 
-btnConfirm.addEventListener("click", () => {
-  if (isDialogOpen) {
-    setTimeout(() => {
-      app();
-    }, 500);
-    btnConfirm.parentElement.parentElement.parentElement.style.display = "none";
-    isDialogOpen = false;
-  }
-});
+setTimeout(() => {
+  app();
+}, 500);
+btnConfirm.parentElement.parentElement.parentElement.style.display = "none";
+isDialogOpen = false;
