@@ -66,13 +66,11 @@ export class World {
   }
 
   setCameraTarget(entity) {
-    // entity.attachController(controller);
     this.controller.setEntity(entity);
     this.controller.setCamera(this.cameraObj);
     this.controller.listen();
     this.cameraObj.setTarget(entity);
     entity.camera = this.cameraObj.camera;
-    console.log("CALL");
   }
 
   addPlanet(x0, y0, z0, color, radius, texture_path = null) {
@@ -151,10 +149,11 @@ export class World {
 
   gameloop = (time) => {
     time *= 0.01;
+    this.cameraObj.followTarget();
+
     this.entities.forEach((e, k, _) => {
       const nearestPlanet = this.findNearestPlanet(e.mesh.uuid);
       const planet = e.planet;
-      this.cameraObj.followTarget();
       this.controller.updateReaction();
       if (
         nearestPlanet &&

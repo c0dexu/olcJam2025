@@ -29,9 +29,9 @@ function app() {
     world.addPlanet(0, 0, 0, 0xffffff, 256, "surface3.png");
     world.addPlanet(2024, 0, 0, 0x43ab7e, 1024, "grass.png");
     world.addPlanet(-256, 1024, 256, 0x43ab7e, 512, "grass.png");
-    world.generateRandomEntities();
     setTimeout(() => {
       world.start();
+      world.generateRandomEntities();
     }, 200);
   }, 500);
 }
